@@ -1,20 +1,24 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useEffect } from 'react';
+import { SafeAreaView } from 'react-native';
+import ItemView from './views/ItemView';
+import { initDB } from './models/Database';
 
 export default function App() {
+  useEffect(() => {
+    const setupDatabase = async () => {
+      try {
+        await initDB();
+      } catch (err) {
+        console.error('Failed to initialize database:', err);
+      }
+    };
+
+    setupDatabase();
+  }, []);
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaView style={{ flex: 1 }}>
+      <ItemView />
+    </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
